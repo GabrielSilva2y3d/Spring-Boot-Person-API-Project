@@ -44,11 +44,6 @@ public class PersonController {
         return personService.list();
     }
 
-    @GetMapping("/{personDTOId}")
-    public ResponseEntity<PersonDTO> getWorkdayById(@PathVariable("personDTOId") Long personDTOId) throws Exception{
-        return ResponseEntity.ok(personService.getById(personDTOId).orElseThrow(() -> new Exception("Person not found")));
-    }
-
     @PutMapping
     public MessageResponseDTO updatePersonDTO(@RequestBody @Valid PersonDTO personDTO){
         return personService.update(personDTO);

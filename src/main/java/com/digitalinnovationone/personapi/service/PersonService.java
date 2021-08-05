@@ -1,6 +1,6 @@
 package com.digitalinnovationone.personapi.service;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.digitalinnovationone.personapi.dto.request.PersonDTO;
 import com.digitalinnovationone.personapi.entity.Person;
@@ -22,14 +22,6 @@ public class PersonService {
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-    
-    public List<Person> list(){
-        return personRepository.findAll();
-    }
-
-    public Optional<Person> getById(Long personId){
-        return personRepository.findById(personId);
-    }
 
     public MessageResponseDTO create(PersonDTO personDTO){
         Person personToSave = personMapper.toModel(personDTO);
@@ -49,8 +41,17 @@ public class PersonService {
             .build();
     }
 
+    public List<PersonDTO> list(){
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public void delete(Long personId){
         personRepository.deleteById(personId);;
     }
+
+
 
 }
