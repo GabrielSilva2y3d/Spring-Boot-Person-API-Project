@@ -1,8 +1,12 @@
 package com.digitalinnovationone.personapi.dto.request;
 
-import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,14 +21,22 @@ public class PersonDTO {
 
     private Long id;
     
+    @NotEmpty
+    @Size(min = 3, max = 13)
     private String firstname;
 
+    @NotEmpty
+    @Size(min = 3, max = 13)
     private String lastname;
 
+    @NotEmpty
+    @CPF
     private String cpf;
 
-    private LocalDate birthDate;
+    private String birthDate;
     
+    @Valid
+    @NotEmpty
     private List<PhoneDTO> phone;
     
 }

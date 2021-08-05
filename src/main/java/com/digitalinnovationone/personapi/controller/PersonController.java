@@ -2,8 +2,10 @@ package com.digitalinnovationone.personapi.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import com.digitalinnovationone.personapi.dto.request.PersonDTO;
 import com.digitalinnovationone.personapi.dto.response.MessageResponseDTO;
-import com.digitalinnovationone.personapi.entity.Person;
 import com.digitalinnovationone.personapi.service.PersonService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,29 +35,29 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createPerson(@RequestBody Person person){
-        return personService.create(person);
+    public MessageResponseDTO createPersonDTO(@RequestBody @Valid PersonDTO personDTO){
+        return personService.create(personDTO);
     }
     
     @GetMapping
-    public List<Person> listPerson(){
+    public List<PersonDTO> listPersonDTO(){
         return personService.list();
     }
 
-    @GetMapping("/{personId}")
-    public ResponseEntity<Person> getWorkdayById(@PathVariable("personId") Long personId) throws Exception{
-        return ResponseEntity.ok(personService.getById(personId).orElseThrow(() -> new Exception("Person not found")));
+    @GetMapping("/{personDTOId}")
+    public ResponseEntity<PersonDTO> getWorkdayById(@PathVariable("personDTOId") Long personDTOId) throws Exception{
+        return ResponseEntity.ok(personService.getById(personDTOId).orElseThrow(() -> new Exception("Person not found")));
     }
 
     @PutMapping
-    public MessageResponseDTO updatePerson(@RequestBody Person person){
-        return personService.update(person);
+    public MessageResponseDTO updatePersonDTO(@RequestBody @Valid PersonDTO personDTO){
+        return personService.update(personDTO);
     }
 
-    @DeleteMapping("/{personIdDel}")
-    public ResponseEntity deleteById(@PathVariable("personIdDel") Long personId) throws Exception{
+    @DeleteMapping("/{personDTOIdDel}")
+    public ResponseEntity deleteById(@PathVariable("personDTOIdDel") Long personDTOId) throws Exception{
         try{
-            personService.delete(personId);
+            personService.delete(personDTOId);
         }catch(Exception e){
             System.out.print(e.getMessage());
         }
