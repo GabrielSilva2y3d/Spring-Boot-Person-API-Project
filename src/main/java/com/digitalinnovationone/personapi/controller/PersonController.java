@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.digitalinnovationone.personapi.dto.request.PersonDTO;
 import com.digitalinnovationone.personapi.dto.response.MessageResponseDTO;
+import com.digitalinnovationone.personapi.exception.PersonNotFoundException;
 import com.digitalinnovationone.personapi.service.PersonService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,18 +45,20 @@ public class PersonController {
         return personService.list();
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
+    }
+
     @PutMapping
     public MessageResponseDTO updatePersonDTO(@RequestBody @Valid PersonDTO personDTO){
         return personService.update(personDTO);
     }
 
-    @DeleteMapping("/{personDTOIdDel}")
-    public ResponseEntity deleteById(@PathVariable("personDTOIdDel") Long personDTOId) throws Exception{
-        try{
-            personService.delete(personDTOId);
-        }catch(Exception e){
-            System.out.print(e.getMessage());
-        }
-        return (ResponseEntity) ResponseEntity.ok();
-        }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) throws PersonNotFoundException {
+        personService.delete(id);
+    }
 }
